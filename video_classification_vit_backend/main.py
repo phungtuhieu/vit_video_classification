@@ -111,7 +111,10 @@ def upload_video():
 
     # Gọi hàm predict_video với đường dẫn video và mô hình đã cho
     result = predict_video(temp_video_path, model_path, frame_rate)
-
+    # result = {
+    #     "label": 0.0,
+    #     "percentage": 0.0,
+    # }
     # Xóa video tạm thời
     os.remove(temp_video_path)
 
@@ -124,7 +127,7 @@ def stop_prediction():
     return jsonify({"message": "Processing stopped"})
 
 if __name__ == '__main__':
-    # Thay thế model_path và frame_rate bằng giá trị thực tế
+    # Thay thế model_   path và frame_rate bằng giá trị thực tế
     model_path = "phungtuhieu/vit_finetuning01"
     frame_rate = 30
     app.run(debug=True)

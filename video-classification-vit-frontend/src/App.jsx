@@ -25,7 +25,6 @@
       console.log("videoObjectURL",videoObjectURL);
       if(videoBlob != null) {
         setSelectedFile(true);
-        console.log("seleee");
       }
       if(videoURL == null && videoObjectURL != null && stopped == false ){
           setVideoURL(videoObjectURL);
@@ -33,6 +32,7 @@
       if(stopped == true) {
         setStopped(false)
       }
+      // setPredictionDone(false);
       setLoadingResult(true);
       if (status !== 'uploading') {
         console.log(info.file, info.fileList);
@@ -55,16 +55,18 @@
         message.error(`Có lỗi không thể upload file`);
       }
     }
-    const handleDrop = (e) => {
-      // setLoadingResult(true)
-      // console.log("sss");
-      // console.log('Dropped files', e.dataTransfer.files);
-    }
+
     const handleStop = () => {
       handleRemove();
       setStopped(true);
     }
-
+    const handleBeforeUpload = () => {
+      console.log("before upload");
+      if(videoURL != null) {
+        setVideoURL(null)
+        setResult(null)
+      }
+    }
     const handleRemove = () => {
       axios.get("http://localhost:5000/stop_prediction").then((resp) => {
         setResult(null);
@@ -102,7 +104,7 @@
           </div>
         
             <div className='wrapp-dragger'>
-            <Dragger fileList={fileList} maxCount={1} onRemove={handleRemove}
+            <Dragger beforeUpload={handleBeforeUpload} fileList={fileList} maxCount={1} onRemove={handleRemove}
             {...props} className='area-upload' accept=".mp4" 
             disabled={selectedFile}
             onChange={handleUpload} onDrop={(e)=>console.log("ssa11",e)}>
